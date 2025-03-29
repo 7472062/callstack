@@ -38,6 +38,7 @@ char    stack_info[STACK_SIZE][20];     // Call Stack 요소에 대한 설명을
 int SP = -1; 
 int FP = -1;
 
+void push(int value, char *info); // 스택에 값을 push하는 함수
 void func1(int arg1, int arg2, int arg3);
 void func2(int arg1, int arg2);
 void func3(int arg1);
@@ -80,7 +81,13 @@ void func1(int arg1, int arg2, int arg3)
     int var_1 = 100;
 
     // func1의 스택 프레임 형성 (함수 프롤로그 + push)
-
+    push(arg3, "arg3"); // arg3 push
+    push(arg2, "arg2"); // arg2 push
+    push(arg1, "arg1"); // arg1 push
+    push(-1, "Return Address"); // Return Address push
+    push(FP, "func1 SFP"); // Saved Frame Pointer push
+    FP = SP; // 현재 스택 프레임 포인터를 SP로 설정
+    push(var_1, "var_1"); // var_1 push
     print_stack();
     func2(11, 13);
     // func2의 스택 프레임 제거 (함수 에필로그 + pop)
