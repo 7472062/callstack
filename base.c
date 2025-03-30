@@ -42,6 +42,7 @@ void func1(int arg1, int arg2, int arg3);
 void func2(int arg1, int arg2);
 void func3(int arg1);
 void push(int value, char *info); // 스택에 값을 push하는 함수
+void pop(); // 스택에서 값을 pop하는 함수
 
 /*  
     현재 call_stack 전체를 출력합니다.
@@ -92,6 +93,7 @@ void func1(int arg1, int arg2, int arg3)
 
     func2(11, 13);
     // func2의 스택 프레임 제거 (함수 에필로그 + pop)
+
     print_stack();
 }
 
@@ -111,6 +113,11 @@ void func2(int arg1, int arg2)
 
     func3(77);
     // func3의 스택 프레임 제거 (함수 에필로그 + pop)
+    SP = FP; // SP를 FP 위치로 갱신
+    FP = call_stack[SP]; // SFP를 통해 이전 FP로 복원
+    pop(); // pop func3 SFP
+    pop(); // pop Return Address
+    pop(); // pop arg1
     print_stack();
 }
 
@@ -150,6 +157,17 @@ void push(int value, char *info)
     {
         stack_info[SP][i] = info[i];
     }
+}
+
+void pop()
+{
+    if (SP == -1) // 스택이 비어있는 경우
+    {
+        printf("Stack is empty.\n");
+        return;
+    }
+    
+    SP--;
 }
 
 //main 함수에 관련된 stack frame은 구현하지 않아도 됩니다.
