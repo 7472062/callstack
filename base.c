@@ -93,7 +93,12 @@ void func1(int arg1, int arg2, int arg3)
 
     func2(11, 13);
     // func2의 스택 프레임 제거 (함수 에필로그 + pop)
-
+    SP = FP; // SP를 FP 위치로 갱신
+    FP = call_stack[SP]; // SFP를 통해 이전 FP로 복원
+    pop(); // pop func2 SFP
+    pop(); // pop Return Address
+    pop(); // pop arg1
+    pop(); // pop arg2
     print_stack();
 }
 
@@ -175,6 +180,13 @@ int main()
 {
     func1(1, 2, 3);
     // func1의 스택 프레임 제거 (함수 에필로그 + pop)
+    SP = FP; // SP를 FP 위치로 갱신
+    FP = call_stack[SP]; // SFP를 통해 이전 FP로 복원
+    pop(); // pop func1 SFP
+    pop(); // pop Return Address
+    pop(); // pop arg1
+    pop(); // pop arg2
+    pop(); // pop arg3
     print_stack();
     return 0;
 }
